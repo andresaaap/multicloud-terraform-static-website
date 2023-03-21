@@ -204,3 +204,30 @@ variable "app_count" {
 
 ####### Your Additions Will Start Here ######
 
+resource "aws_s3_bucket" "udacity-andico-aws-s3-bucket" {
+  bucket = "andico-bucket"
+}
+
+resource "aws_s3_bucket_policy" "allow_get_access" {
+  bucket = aws_s3_bucket.udacity-andico-aws-s3-bucket.id
+  policy = data.aws_iam_policy_document.allow_get_access.json
+}
+
+data "aws_iam_policy_document" "allow_get_access" {
+  statement {
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      aws_s3_bucket.udacity-andico-aws-s3-bucket.arn,
+      "${aws_s3_bucket.udacity-andico-aws-s3-bucket.arn}/*",
+    ]
+  }
+}
+
