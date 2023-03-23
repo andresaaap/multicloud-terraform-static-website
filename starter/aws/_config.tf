@@ -1,7 +1,8 @@
 provider "aws" {
   region = "us-east-2"
+}
 
-  default_tags {
-    tags = local.tags
-  }
+provider "aws" {
+  alias  = "west"
+  region = "us-east-2"
 }

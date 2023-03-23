@@ -1,10 +1,6 @@
 locals {
   name   = "udacity"
   region = "us-east-2"
-  tags = {
-    Name      = local.name
-    Terraform = "true"
-  }
 }
 
 resource "aws_vpc" "default" {
@@ -204,12 +200,98 @@ variable "app_count" {
 
 ####### Your Additions Will Start Here ######
 
-resource "aws_s3_bucket" "udacity-andico-aws-s3-bucket" {
-  bucket = "andico-bucket"
+// S3
+
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["s3.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "replication" {
+  name = "tf-iam-role-replication-12345"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+data "aws_iam_policy_document" "replication" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetReplicationConfiguration",
+      "s3:ListBucket",
+    ]
+
+    resources = [aws_s3_bucket.source.arn]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObjectVersionForReplication",
+      "s3:GetObjectVersionAcl",
+      "s3:GetObjectVersionTagging",
+    ]
+
+    resources = ["${aws_s3_bucket.source.arn}/*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:ReplicateObject",
+      "s3:ReplicateDelete",
+      "s3:ReplicateTags",
+    ]
+
+    resources = ["${aws_s3_bucket.destination.arn}/*"]
+  }
+}
+
+resource "aws_iam_policy" "replication" {
+  name   = "tf-iam-role-policy-replication-12345"
+  policy = data.aws_iam_policy_document.replication.json
+}
+
+resource "aws_iam_role_policy_attachment" "replication" {
+  role       = aws_iam_role.replication.name
+  policy_arn = aws_iam_policy.replication.arn
+}
+
+resource "aws_s3_bucket" "destination" {
+  bucket = "andico-bucket-destination"
+}
+
+resource "aws_s3_bucket_versioning" "destination" {
+  bucket = aws_s3_bucket.destination.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+
+
+
+// Main bucket
+
+resource "aws_s3_bucket" "source" {
+  provider = aws.west
+  bucket   = "andico-bucket-source"
 }
 
 resource "aws_s3_bucket_policy" "allow_get_access" {
-  bucket = aws_s3_bucket.udacity-andico-aws-s3-bucket.id
+  provider = aws.west
+  bucket = aws_s3_bucket.source.id
   policy = data.aws_iam_policy_document.allow_get_access.json
 }
 
@@ -225,9 +307,88 @@ data "aws_iam_policy_document" "allow_get_access" {
     ]
 
     resources = [
-      aws_s3_bucket.udacity-andico-aws-s3-bucket.arn,
-      "${aws_s3_bucket.udacity-andico-aws-s3-bucket.arn}/*",
+      aws_s3_bucket.source.arn,
+      "${aws_s3_bucket.source.arn}/*",
     ]
   }
 }
+
+
+resource "aws_s3_bucket_versioning" "source" {
+  provider = aws.west
+
+  bucket = aws_s3_bucket.source.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_replication_configuration" "replication" {
+  provider = aws.west
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.source]
+
+  role   = aws_iam_role.replication.arn
+  bucket = aws_s3_bucket.source.id
+
+  rule {
+    id = "foobar"
+
+    status = "Enabled"
+
+    destination {
+      bucket        = aws_s3_bucket.destination.arn
+      storage_class = "STANDARD"
+    }
+  }
+}
+
+// DynamoDB
+
+resource "aws_dynamodb_table" "basic-dynamodb-table" {
+  name           = "GameScores"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 20
+  write_capacity = 20
+  hash_key       = "UserId"
+  range_key      = "GameTitle"
+
+  attribute {
+    name = "UserId"
+    type = "S"
+  }
+
+  attribute {
+    name = "GameTitle"
+    type = "S"
+  }
+
+  attribute {
+    name = "TopScore"
+    type = "N"
+  }
+
+  ttl {
+    attribute_name = "TimeToExist"
+    enabled        = false
+  }
+
+  global_secondary_index {
+    name               = "GameTitleIndex"
+    hash_key           = "GameTitle"
+    range_key          = "TopScore"
+    write_capacity     = 10
+    read_capacity      = 10
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["UserId"]
+  }
+
+  tags = {
+    Name        = "dynamodb-table-1"
+    Environment = "production"
+  }
+}
+
+
+
 
