@@ -7,7 +7,7 @@ resource "azurerm_container_group" "udacity" {
   location            = data.azurerm_resource_group.udacity.location
   resource_group_name = data.azurerm_resource_group.udacity.name
   ip_address_type     = "Public"
-  dns_name_label      = "udacity-tscotto-azure"
+  dns_name_label      = "udacity-andico-azure"
   os_type             = "Linux"
 
   container {
