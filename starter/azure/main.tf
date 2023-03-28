@@ -65,10 +65,6 @@ resource "random_integer" "ri" {
   max = 99999
 }
 
-data "azurerm_resource_group" "udacity" {
-  name     = "Regroup_4svj6GWBSZivMVplry"
-}
-
 # Create the Linux App Service Plan
 resource "azurerm_service_plan" "appserviceplan" {
   name                = "webapp-asp-${random_integer.ri.result}"
