@@ -40,7 +40,7 @@ resource "azurerm_storage_account" "example" {
 }
 
 resource "azurerm_mssql_server" "udacity-andico-azure-sql" {
-  name                         = "udacity-andico-azure-sql
+  name                         = "udacity-andico-azure-sql"
   resource_group_name          = data.azurerm_resource_group.udacity.name
   location                     = data.azurerm_resource_group.udacity.location
   version                      = "12.0"
