@@ -345,7 +345,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
 
 // DynamoDB
 
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
+resource "aws_dynamodb_table" "udacity-andico-aws-dynamodb" {
   name           = "GameScores"
   billing_mode   = "PAY_PER_REQUEST"
   read_capacity  = 20
@@ -432,7 +432,7 @@ resource "aws_dynamodb_table" "dynamodb-table-us-west-2" {
 
 resource "aws_dynamodb_global_table" "global-dynamodb-table" {
   depends_on = [
-    aws_dynamodb_table.basic-dynamodb-table,
+    aws_dynamodb_table.udacity-andico-aws-dynamodb,
     aws_dynamodb_table.dynamodb-table-us-west-2,
   ]
 
