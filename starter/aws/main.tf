@@ -229,7 +229,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:ListBucket",
     ]
 
-    resources = [aws_s3_bucket.source.arn]
+    resources = [aws_s3_bucket.udacity-andico-aws-s3-bucket.arn]
   }
 
   statement {
@@ -241,7 +241,7 @@ data "aws_iam_policy_document" "replication" {
       "s3:GetObjectVersionTagging",
     ]
 
-    resources = ["${aws_s3_bucket.source.arn}/*"]
+    resources = ["${aws_s3_bucket.udacity-andico-aws-s3-bucket.arn}/*"]
   }
 
   statement {
@@ -284,14 +284,14 @@ resource "aws_s3_bucket_versioning" "destination" {
 
 // Main bucket
 
-resource "aws_s3_bucket" "source" {
+resource "aws_s3_bucket" "udacity-andico-aws-s3-bucket" {
   provider = aws.west
-  bucket   = "andico-bucket-source"
+  bucket   = "udacity-andico-aws-s3-bucket"
 }
 
 resource "aws_s3_bucket_policy" "allow_get_access" {
   provider = aws.west
-  bucket = aws_s3_bucket.source.id
+  bucket = aws_s3_bucket.udacity-andico-aws-s3-bucket.id
   policy = data.aws_iam_policy_document.allow_get_access.json
 }
 
@@ -307,8 +307,8 @@ data "aws_iam_policy_document" "allow_get_access" {
     ]
 
     resources = [
-      aws_s3_bucket.source.arn,
-      "${aws_s3_bucket.source.arn}/*",
+      aws_s3_bucket.udacity-andico-aws-s3-bucket.arn,
+      "${aws_s3_bucket.udacity-andico-aws-s3-bucket.arn}/*",
     ]
   }
 }
@@ -317,7 +317,7 @@ data "aws_iam_policy_document" "allow_get_access" {
 resource "aws_s3_bucket_versioning" "source" {
   provider = aws.west
 
-  bucket = aws_s3_bucket.source.id
+  bucket = aws_s3_bucket.udacity-andico-aws-s3-bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -329,7 +329,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
   depends_on = [aws_s3_bucket_versioning.source]
 
   role   = aws_iam_role.replication.arn
-  bucket = aws_s3_bucket.source.id
+  bucket = aws_s3_bucket.udacity-andico-aws-s3-bucket.id
 
   rule {
     id = "foobar"
