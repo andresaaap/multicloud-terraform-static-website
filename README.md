@@ -2,7 +2,7 @@
 
 ## Notes for the reviewer
 
-Please go to the screenshots folder to see the images required in the rubric.
+### Please go to the screenshots folder to see the images required in the rubric. The diagram is in the root directory and is called multicloud-diagram.png
 
 ### DynamoDB selection support
 
