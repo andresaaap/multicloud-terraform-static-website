@@ -1,8 +1,8 @@
 # A Multi-Cloud Application
 
-## Notes for the reviewer
+## Notes for the reviewer ❗️❗️❗️❗️
 
-### Please go to the screenshots folder to see the images required in the rubric. The diagram is in the root directory and is called multicloud-diagram.png
+### Please go to the screenshots folder to see the images required in the rubric. The diagram is in the root directory and is called multicloud-diagram.png. The explaination on why AWS DynamoDB is chosen is in the README.md in the section "DynamoDB selection support"
 
 ### DynamoDB selection support
 
