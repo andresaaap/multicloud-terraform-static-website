@@ -7,7 +7,7 @@ Please go to the screenshots folder to see the images required in the rubric.
 ### DynamoDB selection support
 
 **Availability: Requirement is global availability (Only AWS DynamoDB meets requirement)**
-Availability is the assurance that an IT infrastructure has suitable recoverability and protection from system failures, natural disasters or malicious attacks. One important factor is geographical replication. Under high scalable pricing (non-provisioned) AWS DynamoDB has availability in multiple regions (glocal) and Azure CosmosDB only runs in a single Azure region.
+Availability is the assurance that an IT infrastructure has suitable recoverability and protection from system failures, natural disasters or malicious attacks. One important factor is geographical replication. Under high scalable pricing (non-provisioned) AWS [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) has availability in multiple regions (glocal) and [Azure CosmosDB](https://learn.microsoft.com/en-us/azure/cosmos-db/throughput-serverless) only runs in a single Azure region.
 
 **Pricing: Requirement Highly scalable pricing (Azure CosmosDB has lower pricing)**
 DynamoDB (on-demand capacity, Data storage size 1GB, 1 million writes / month + 1 million reads / month = 2 million operations / month): 
