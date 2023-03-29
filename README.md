@@ -11,10 +11,10 @@ Availability is the assurance that an IT infrastructure has suitable recoverabil
 
 **Pricing: Requirement Highly scalable pricing (Azure CosmosDB has lower pricing)**
 DynamoDB (on-demand capacity, Data storage size 1GB, 1 million writes / month + 1 million reads / month = 2 million operations / month): 
-![DynamoDB pricing](https://github.com/andresaaap/multicloud-terraform-static-website/blob/main/aws-pricing.png?raw=true)
+![DynamoDB pricing](https://github.com/andresaaap/multicloud-terraform-static-website/blob/main/dynamodb-decision-support/aws-pricing.png?raw=true)
 
 Azure CosmosDB (serverless, Data storage size 1GB, 2 million RUs / month: 
-![CosmosDB pricing](https://github.com/andresaaap/multicloud-terraform-static-website/blob/main/azure-pricing.png?raw=true)
+![CosmosDB pricing](https://github.com/andresaaap/multicloud-terraform-static-website/blob/main/dynamodb-decision-support/azure-pricing.png?raw=true)
 
 **Conclusions:** Only DynamoDB meets both requirements, therefore the decision is to choose AWS DynamoDB.
 
