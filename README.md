@@ -1,60 +1,31 @@
 # A Multi-Cloud Application
 
-## Getting Started
+## Notes for the reviewer
 
-This folder contains the scaffolding Terraform code to deploy your project. Once you select the appropriate cloud providers, you will need to research specific Terraform modules for your select service and add those modules to the provided Terraform scaffolding. 
-
-### Resources
-See the documentation here:
-- For [Azure](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
-- For [AWS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+Please go to the screenshots folder to see the images required in the rubric.
 
 ### Dependencies
 
 ```
 - Terraform
-- Azure access
-- AWS access
+- Azure
+- AWS
 ```
 
 ### Installation
 
-**NOTE:** This project assumes you have already set up your labs from the course and created your personal git copies of the repositories:
-
-1. Open the AWS portal from the classroom
+1. Open the AWS portal
     1. Open AWS CloudShell
     2. Run the following commands to install Terraform:
         1. `sudo yum install -y yum-utils`
         2. `sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo`
         3. `sudo yum -y install terraform`
     2. Clone your git repo
-2. Open the Azure portal from the classroom
+2. Open the Azure portal
     1. Open the Azure Cloud Shell
         1. Select PowerShell when prompted. Then click Show advanced settings on the next screen
         2. You can leave the resource group selected, but you’ll need to put in a name for the storage account and file share for your console. Name your storage account all lowercase with no dashes or punctuation. And less than 24 characters. Something like tscottocloudcstorage and tscottofileshare. Then click Create. Allow the console to provision. 
     2. Clone your git repo
-
-
-## Project Instructions
-
-### Requirements
-Your goal is to select a cloud provider for each of the 4 required services - SQL server, S3 storage, web app and NoSQL database. Also don't forget to consider cost and flexibility of pricing options.
-
-1. Select a cloud provider for SQL server
-    1. Must utilize at least 2 vCPU
-    2. 150GB of storage
-    3. We will be migrating an existing SQL server instance
-    4. We would like to bring our own SQL licensing
-2. Select a cloud provider for S3 storage
-    1.  Must have full S3 API capability
-    2.  Global replication
-3. Select a cloud provider for the NoSQL database
-    1. Global availability
-    2. Highly scalable pricing
-4. Select a cloud provider for the Web app
-    1. Existing dotnet application (note this is NOT a static website)
-
-**NOTE:** There are container groups contained here in the scaffolding for both AWS and Azure. They are not part of the design itself. They are there to test your functionality once you have deployed your work.
 
 ### Instructions
 1. With the requirements in mind, your team decided to use AWS S3 due to full S3 API compatibility. The team decided on Azure SQL and a dotnet web app due to Microsoft being the creators of both those technologies. You have the highest compatibility and support from Microsoft with both SQL and dotnet. Your team also wants to use AWS DynamoDB. Do some research using search engines, docs, and pricing calculators from both AWS and Azure to justify why your team chose AWS DynamoDB over Azure's counterpart. Limit your response to less than 150 words. Spend no more than 30 mins on this part. Add your explanation to your README.md file in your final repo submission.
@@ -78,15 +49,6 @@ Your goal is to select a cloud provider for each of the 4 required services - SQ
 7. Services you select will be added after commented line `####### Your Additions Will Start Here ######` in the respective cloud provider `main.tf` file.
 8. After you have added the modules, applies the changes to the files and push your changes to your github repositories
 9. Pull a fresh copy of your github repository into your AWS and Azure Cloud Shells
-#### Troubleshooting Tips:
-- In AWS you may only be able to run 1 or 2 exercises at a time. If you get an error in the AWS console about not having enough space or out of space, please run the following commands:
-    - `cd ~`
-    - `rm -rf *`
-
-- In Azure, you may receive an error when provisioning your cloud console similar to "Storage Account Creation Failed" or "Authorization Failed". This is likely because you did not select the pre-created resource group from the lab. The pre-created resource group is already selected and is required for the labs. The pre-created resource group name will be similar to `Regroup_4hEF_2G`. When provisioning your cloud console, first select `Show advanced settings`, then ensure you leave the resource group as the default.
-
-- In Azure, you may receive an error when running terraform about resource group creation failed. This is likely because you did not change the resource group name in the `main.tf` file to reflect your unique resource group name the Azure labs assign you. The resource group name will look similar to this: `Regroup_4hEF_2G`
-
 10. In each shell, run the following:
 
     For AWS:
@@ -144,11 +106,14 @@ Your goal is to select a cloud provider for each of the 4 required services - SQ
 16. Please take a screenshot of the cloud console showing the successful Terraform destroy command
 
 
-## Standout Suggestions
+#### Troubleshooting Tips:
+- In AWS you may only be able to run 1 or 2 exercises at a time. If you get an error in the AWS console about not having enough space or out of space, please run the following commands:
+    - `cd ~`
+    - `rm -rf *`
 
-1. Deploy more than 2 services in either cloud provider
-2. Create an additional environment variable to demonstrate even more connectivity between additional services
-3. Create another demonstration application similar to the one used in the project and show it accessing cloud resources
+- In Azure, you may receive an error when provisioning your cloud console similar to "Storage Account Creation Failed" or "Authorization Failed". This is likely because you did not select the pre-created resource group from the lab. The pre-created resource group is already selected and is required for the labs. The pre-created resource group name will be similar to `Regroup_4hEF_2G`. When provisioning your cloud console, first select `Show advanced settings`, then ensure you leave the resource group as the default.
+
+- In Azure, you may receive an error when running terraform about resource group creation failed. This is likely because you did not change the resource group name in the `main.tf` file to reflect your unique resource group name the Azure labs assign you. The resource group name will look similar to this: `Regroup_4hEF_2G`
 
 ## License
 
